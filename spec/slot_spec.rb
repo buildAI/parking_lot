@@ -1,5 +1,5 @@
-require './lib/slot.rb'
-require './lib/vehicle.rb'
+require_relative '../lib/slot.rb'
+require_relative '../lib/vehicle.rb'
 
 describe Slot do
   describe '.initialize' do
