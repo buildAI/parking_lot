@@ -69,4 +69,15 @@ describe Slot do
       expect(slot.distance).to eq (1)
     end
   end
+
+  describe ".get_nearest_free_slot" do
+    it 'returns the nearest free slot' do
+      slots = []
+      vehicles = []
+      5.times { |value| slots << Slot.new(value+1) }
+      4.times { |value| vehicles << Vehicle.new("KA-01-HH-123#{value}", ["Pink", "Orange"].sample) }
+      vehicles.each_with_index { |vehicle, index| slots[index].park_vehicle(vehicle) }
+      expect(Slot.get_nearest_free_slot(slots)).to eq slots.last
+    end
+  end
 end

@@ -27,4 +27,8 @@ class Slot
     # ASSUMPTION: IDs value is proortional to distance from entry
     return id
   end
+
+  def self.get_nearest_free_slot(slots)
+    (slots&.sort_by { |slot| slot.distance })&.find { |slot| slot.free? }
+  end
 end
