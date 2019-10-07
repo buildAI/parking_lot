@@ -6,6 +6,10 @@ describe Slot do
       slot = Slot.new(1, 1)
       expect(slot.class).to eq described_class
     end
+
+    it 'throws an error when row or column is less than zero' do
+      expect { Slot.new(0, 1) }.to raise_error(ArgumentError, "Invalid row/column value be less than zero")
+    end
   end
 
   describe '#id' do
