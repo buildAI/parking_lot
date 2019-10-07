@@ -24,4 +24,8 @@ class Slot
   def free?
     self.vehicle.nil?
   end
+
+  def remove_vehicle
+    self.vehicle = nil
+  end
 end

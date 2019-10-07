@@ -56,4 +56,17 @@ describe Slot do
       expect(slot.free?).to eq false
     end
   end
+
+  describe "#.remove_vehicle" do
+    let(:slot) { Slot.new(1, 1) }
+    let(:registration_number) { 'KA-01-HH-1234' }
+    let(:colour) { 'White' }
+    let(:vehicle) { Vehicle.new(registration_number, colour) }
+
+    it 'sets slot the slot free' do
+      slot.park_vehicle(vehicle)
+      slot.remove_vehicle
+      expect(slot.free?).to eq true
+    end
+  end
 end
