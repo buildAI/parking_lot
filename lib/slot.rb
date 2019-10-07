@@ -28,4 +28,10 @@ class Slot
   def remove_vehicle
     self.vehicle = nil
   end
+
+  def distance
+    #Just an assumption that there will be on line of rows per column
+    #Column * row because entry will be at 1 * 1(Assumption probably good one I am assuming)
+    return (column * row)
+  end
 end

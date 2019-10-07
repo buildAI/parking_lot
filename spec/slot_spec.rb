@@ -69,4 +69,11 @@ describe Slot do
       expect(slot.free?).to eq true
     end
   end
+
+  describe "#distance" do
+    it 'returns distance from the entry point' do
+      slot = Slot.new(1, 1)
+      expect(slot.distance).to eq (1)
+    end
+  end
 end
