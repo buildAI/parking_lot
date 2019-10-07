@@ -1,4 +1,5 @@
 require './lib/slot.rb'
+require './lib/vehicle.rb'
 
 describe Slot do
   describe '.initialize' do
@@ -9,10 +10,6 @@ describe Slot do
 
     it 'throws an error when row or column is less than zero' do
       expect { Slot.new(0, 1) }.to raise_error(ArgumentError, "Invalid row/column value be less than zero")
-    end
-
-    it 'initializes the status of the spot to empty' do
-      expect(Slot.new(1, 1).status).to eq 'empty'
     end
   end
 
@@ -29,6 +26,18 @@ describe Slot do
       id = slot.id
       expect(id.class).to eq Integer
       expect(id).to eq 12
+    end
+  end
+
+  describe "#park_vehicle" do
+    let(:slot) { Slot.new(1, 1) }
+    let(:registration_number) { 'KA-01-HH-1234' }
+    let(:colour) { 'White' }
+    let(:vehicle) { Vehicle.new(registration_number, colour) }
+
+    it 'parks the vehicle in the spot' do
+      slot.park_vehicle(vehicle)
+      expect(slot.vehicle).to eq vehicle
     end
   end
 end
