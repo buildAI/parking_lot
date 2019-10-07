@@ -6,7 +6,7 @@ class Slot
 
   def initialize(id)
     id = id.to_i if id&.class == String
-    raise ArgumentError, "Invalid row/column value shouln't be less than zero"  if (id < 1 || id < 1)
+    raise ArgumentError, "Invalid id. Value shouln't be less than zero"  if (id < 1 || id < 1)
     @id = id
   end
 

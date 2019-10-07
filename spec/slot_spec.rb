@@ -9,7 +9,7 @@ describe Slot do
     end
 
     it 'throws an error when id of slot is less than zero' do
-      expect { Slot.new(0) }.to raise_error(ArgumentError, "Invalid row/column value shouln't be less than zero")
+      expect { Slot.new(0) }.to raise_error(ArgumentError, "Invalid id. Value shouln't be less than zero")
     end
   end
 
