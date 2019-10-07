@@ -41,7 +41,7 @@ describe Slot do
     end
   end
 
-  describe "#.free?" do
+  describe "#free?" do
     let(:slot) { Slot.new(1, 1) }
     let(:registration_number) { 'KA-01-HH-1234' }
     let(:colour) { 'White' }
@@ -57,7 +57,7 @@ describe Slot do
     end
   end
 
-  describe "#.remove_vehicle" do
+  describe "#remove_vehicle" do
     let(:slot) { Slot.new(1, 1) }
     let(:registration_number) { 'KA-01-HH-1234' }
     let(:colour) { 'White' }
