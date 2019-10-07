@@ -10,6 +10,10 @@ describe Slot do
     it 'throws an error when row or column is less than zero' do
       expect { Slot.new(0, 1) }.to raise_error(ArgumentError, "Invalid row/column value be less than zero")
     end
+
+    it 'initializes the status of the spot to empty' do
+      expect(Slot.new(1, 1).status).to eq 'empty'
+    end
   end
 
   describe '#id' do
