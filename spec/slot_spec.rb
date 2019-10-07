@@ -40,4 +40,20 @@ describe Slot do
       expect(slot.vehicle).to eq vehicle
     end
   end
+
+  describe "#.free?" do
+    let(:slot) { Slot.new(1, 1) }
+    let(:registration_number) { 'KA-01-HH-1234' }
+    let(:colour) { 'White' }
+    let(:vehicle) { Vehicle.new(registration_number, colour) }
+
+    it 'returns true when slot is empty' do
+      expect(slot.free?).to be_truthy
+    end
+
+    it 'returned false when vehicle is parked' do
+      slot.park_vehicle(vehicle)
+      expect(slot.free?).to eq false
+    end
+  end
 end

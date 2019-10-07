@@ -20,4 +20,8 @@ class Slot
     return unless vehicle.class == Vehicle
     self.vehicle = vehicle
   end
+
+  def free?
+    self.vehicle.nil?
+  end
 end
