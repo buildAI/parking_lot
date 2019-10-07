@@ -1,19 +1,13 @@
 require_relative './vehicle.rb'
 
 class Slot
-  attr_reader :column, :row
+  attr_reader :id
   attr_accessor :vehicle
 
-  def initialize(column, row)
-    column = column.to_i if column&.class == String
-    row =  row.to_i if row&.class == String
-    raise ArgumentError, "Invalid row/column value be less than zero"  if (column < 1 || row < 1)
-    @column = column
-    @row = row
-  end
-
-  def id
-    "#{column}#{row}".to_i
+  def initialize(id)
+    id = id.to_i if id&.class == String
+    raise ArgumentError, "Invalid row/column value shouln't be less than zero"  if (id < 1 || id < 1)
+    @id = id
   end
 
   def park_vehicle(vehicle)
@@ -30,8 +24,7 @@ class Slot
   end
 
   def distance
-    #Just an assumption that there will be on line of rows per column
-    #Column * row because entry will be at 1 * 1(Assumption probably good one I am assuming)
-    return (column * row)
+    # ASSUMPTION: IDs value is proortional to distance from entry
+    return id
   end
 end
