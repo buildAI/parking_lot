@@ -1,6 +1,12 @@
 class Slot
-  def initialize(row, column)
-    @row = row
+  attr_reader :column, :row
+
+  def initialize(column, row)
     @column = column
+    @row = row
+  end
+
+  def id
+    "#{column}#{row}".to_i
   end
 end
