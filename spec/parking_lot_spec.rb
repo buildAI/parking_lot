@@ -1,5 +1,6 @@
 require_relative '../lib/parking_lot.rb'
 require_relative '../lib/slot.rb'
+require_relative '../lib/exceptions.rb'
 
 describe ParkingLot do
   describe ".initialize" do
@@ -31,6 +32,11 @@ describe ParkingLot do
       expect(allocated_slot.class).to eq Slot
       expect(allocated_slot.vehicle.registration_number).to eq registration_number
       expect(allocated_slot.vehicle.colour).to eq colour
+    end
+
+    it "throws an error when parking is full" do
+      6.times { |value| @parking_lot.allocate_parking("KA-01-HH-123#{value}", ["Pink", "Orange"].sample) }
+      expect { @parking_lot.allocate_parking("KA-01-HH-1236", "Pink") }.to raise_error(ParkingFullException, "Parking lot is full")
     end
   end
 
