@@ -93,4 +93,19 @@ describe ParkingLot do
       expect(@parking_lot.get_slot_with_registration_number(registration_number)).to eq slot
     end
   end
+
+  describe '#status' do
+    before(:each) {
+      @parking_lot = ParkingLot.new(6)
+    }
+
+    it 'returns the details of slots and vechile details' do
+      slots = 4.times { |value| @parking_lot.allocate_parking("KA-01-HH-123#{value}", "White") }
+      expect(@parking_lot.status).to eq ["Slot No.    Registration No    Colour",
+        "1           KA-01-HH-1230      White",
+        "2           KA-01-HH-1231      White",
+        "3           KA-01-HH-1232      White",
+        "4           KA-01-HH-1233      White"]
+    end
+  end
 end

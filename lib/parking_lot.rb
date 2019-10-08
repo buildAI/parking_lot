@@ -35,6 +35,12 @@ class ParkingLot
     @slots&.find { |slot| slot&.vehicle&.registration_number == registration_number }
   end
 
+  def status
+    status = ["Slot No.    Registration No    Colour"]
+    occupied_slots = @slots.filter { |slot| !slot.free? }
+    status + occupied_slots.map { |slot| "#{slot&.id}           #{slot&.vehicle&.registration_number}      #{slot&.vehicle&.colour}"}
+  end
+
   private
   def init_slots
     @slots = []
