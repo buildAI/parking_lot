@@ -30,6 +30,11 @@ class ParkingLot
     (@slots&.select { |slot| slot&.vehicle&.colour == colour })&.compact
   end
 
+  def get_slot_with_registration_number(registration_number)
+    return if registration_number&.empty?
+    @slots&.find { |slot| slot&.vehicle&.registration_number == registration_number }
+  end
+
   private
   def init_slots
     @slots = []
