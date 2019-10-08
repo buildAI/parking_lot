@@ -19,6 +19,12 @@ class ParkingLot
     @slots.any? { |slot| slot.free? }
   end
 
+  def get_vehicles_with_colour(colour)
+    return if colour&.empty?
+    vehicles = @slots&.map(&:vehicle)&.compact
+    vehicles&.select { |vehicle| vehicle.colour == colour }
+  end
+
   private
   def init_slots
     @slots = []
