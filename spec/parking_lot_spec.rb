@@ -18,4 +18,19 @@ describe ParkingLot do
       expect(slots.map(&:id)).to eq [1, 2, 3, 4, 5, 6]
     end
   end
+
+  describe "#allocate_parking" do
+    before(:each) {
+      @parking_lot = ParkingLot.new(6)
+    }
+
+    it 'allocates parking in the parking lot' do
+      registration_number = 'KA-01-HH-1234'
+      colour = 'White'
+      allocated_slot = @parking_lot.allocate_parking(registration_number, colour)
+      expect(allocated_slot.class).to eq Slot
+      expect(allocated_slot.vehicle.registration_number).to eq registration_number
+      expect(allocated_slot.vehicle.colour).to eq colour
+    end
+  end
 end
