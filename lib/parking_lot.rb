@@ -25,6 +25,11 @@ class ParkingLot
     vehicles&.select { |vehicle| vehicle.colour == colour }
   end
 
+  def get_slots_with_vehicle_colour(colour)
+    return if colour&.empty?
+    (@slots&.select { |slot| slot&.vehicle&.colour == colour })&.compact
+  end
+
   private
   def init_slots
     @slots = []
