@@ -28,9 +28,17 @@ describe Slot do
     let(:colour) { 'White' }
     let(:vehicle) { Vehicle.new(registration_number, colour) }
 
-    it 'parks the vehicle in the spot' do
-      slot.park_vehicle(vehicle)
-      expect(slot.vehicle).to eq vehicle
+    it 'returns the slot allocated and parks the vehicle in the spot' do
+      allocated_slot = slot.park_vehicle(vehicle)
+      expect(allocated_slot.class).to eq Slot
+      expect(allocated_slot.vehicle).to eq vehicle
+    end
+
+    it "returns nil and doesn't park the vehicle in the spot" do
+      vehicle_2 = Vehicle.new('KA-01-HH-1235', 'Orange')
+      slot.park_vehicle(vehicle_2)
+      allocated_slot = slot.park_vehicle(vehicle)
+      expect(allocated_slot).to be_nil
     end
   end
 

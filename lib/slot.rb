@@ -11,8 +11,8 @@ class Slot
   end
 
   def park_vehicle(vehicle)
-    return unless vehicle.class == Vehicle
-    self.vehicle = vehicle
+    return unless (vehicle.class == Vehicle && self.free?)
+    return self if self.vehicle = vehicle
   end
 
   def free?
