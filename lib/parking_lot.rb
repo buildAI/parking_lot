@@ -14,6 +14,10 @@ class ParkingLot
     nearest_free_slot.park_vehicle(vehicle) if nearest_free_slot
   end
 
+  def slots_available?
+    @slots.any? { |slot| slot.free? }
+  end
+
   private
   def init_slots
     @slots = []

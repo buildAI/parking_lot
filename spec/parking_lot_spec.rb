@@ -33,4 +33,20 @@ describe ParkingLot do
       expect(allocated_slot.vehicle.colour).to eq colour
     end
   end
+
+  describe '#slots_available' do
+    before(:each) {
+      @parking_lot = ParkingLot.new(6)
+    }
+
+    it 'returns true when at least one slot is free' do
+      5.times { |value| @parking_lot.allocate_parking("KA-01-HH-123#{value}", ["Pink", "Orange"].sample) }
+      expect(@parking_lot.slots_available?).to be_truthy
+    end
+
+    it 'returns false when parking lot is full' do
+      6.times { |value| @parking_lot.allocate_parking("KA-01-HH-123#{value}", ["Pink", "Orange"].sample) }
+      expect(@parking_lot.slots_available?).to eq false
+    end
+  end
 end
