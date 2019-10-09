@@ -1,4 +1,6 @@
 require_relative './vehicle.rb'
+require_relative './slot.rb'
+require_relative './exceptions.rb'
 
 class ParkingLot
   def initialize(size)
@@ -42,6 +44,13 @@ class ParkingLot
 
   def slots
     slots ||= @slots
+  end
+
+  def release(slot_id)
+    slot = slots.find {|slot| slot.id == slot_id }
+    raise InvalidSlotId, "Invalid slot ID. Unable to process." unless slot
+    slot&.remove_vehicle
+    slot&.free?
   end
 
   private

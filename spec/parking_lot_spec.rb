@@ -1,6 +1,5 @@
 require_relative '../lib/parking_lot.rb'
 require_relative '../lib/slot.rb'
-require_relative '../lib/exceptions.rb'
 
 describe ParkingLot do
   describe ".initialize" do
@@ -115,6 +114,23 @@ describe ParkingLot do
          {:colour=>"White", :registration_number=>"KA-01-HH-1231", :slot_id=>2},
          {:colour=>"White", :registration_number=>"KA-01-HH-1232", :slot_id=>3},
          {:colour=>"White", :registration_number=>"KA-01-HH-1233", :slot_id=>4}]
+    end
+  end
+
+  describe '#release' do
+    before(:each) {
+      @parking_lot = ParkingLot.new(6)
+    }
+
+    it 'frees up the slot id in the parking lot' do
+      registration_number = "KA-01-HH-1231"
+      slot = @parking_lot.allocate_parking(registration_number, "Pink")
+      @parking_lot.release(slot.id)
+      expect(@parking_lot.slots.first.free?).to be_truthy
+    end
+
+    it 'throws an exception when invalid slot id is sent' do
+      expect{@parking_lot.release(rand(100..1000))}.to raise_error(InvalidSlotId, 'Invalid slot ID. Unable to process.')
     end
   end
 end
