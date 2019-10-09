@@ -1,8 +1,6 @@
 require_relative './vehicle.rb'
 
 class ParkingLot
-  attr_reader :slots
-
   def initialize(size)
     @size = size
     init_slots
@@ -16,29 +14,33 @@ class ParkingLot
   end
 
   def slots_available?
-    @slots.any? { |slot| slot.free? }
+    slots.any? { |slot| slot.free? }
   end
 
   def get_vehicles_with_colour(colour)
     return if colour&.empty?
-    vehicles = @slots&.map(&:vehicle)&.compact
+    vehicles = slots&.map(&:vehicle)&.compact
     vehicles&.select { |vehicle| vehicle.colour == colour }
   end
 
   def get_slots_with_vehicle_colour(colour)
     return if colour&.empty?
-    (@slots&.select { |slot| slot&.vehicle&.colour == colour })&.compact
+    (slots&.select { |slot| slot&.vehicle&.colour == colour })&.compact
   end
 
   def get_slot_with_registration_number(registration_number)
     return if registration_number&.empty?
-    @slots&.find { |slot| slot&.vehicle&.registration_number == registration_number }
+    slots&.find { |slot| slot&.vehicle&.registration_number == registration_number }
   end
 
   def status
     status = ["Slot No.    Registration No    Colour"]
-    occupied_slots = @slots.filter { |slot| !slot.free? }
+    occupied_slots = slots.filter { |slot| !slot.free? }
     status + occupied_slots.map { |slot| "#{slot&.id}           #{slot&.vehicle&.registration_number}      #{slot&.vehicle&.colour}"}
+  end
+
+  def slots
+    slots ||= @slots
   end
 
   private
