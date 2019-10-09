@@ -34,9 +34,8 @@ class ParkingLot
   end
 
   def status
-    status = ["Slot No.    Registration No    Colour"]
     occupied_slots = slots.filter { |slot| !slot.free? }
-    status + occupied_slots.map { |slot| "#{slot&.id}           #{slot&.vehicle&.registration_number}      #{slot&.vehicle&.colour}"}
+    occupied_slots.map { |slot| {slot_id: slot&.id, registration_number: slot&.vehicle&.registration_number, colour: slot&.vehicle&.colour}}
   end
 
   def slots

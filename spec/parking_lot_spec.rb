@@ -101,11 +101,10 @@ describe ParkingLot do
 
     it 'returns the details of slots and vechile details' do
       slots = 4.times { |value| @parking_lot.allocate_parking("KA-01-HH-123#{value}", "White") }
-      expect(@parking_lot.status).to eq ["Slot No.    Registration No    Colour",
-        "1           KA-01-HH-1230      White",
-        "2           KA-01-HH-1231      White",
-        "3           KA-01-HH-1232      White",
-        "4           KA-01-HH-1233      White"]
+      expect(@parking_lot.status).to eq [{:colour=>"White", :registration_number=>"KA-01-HH-1230", :slot_id=>1},
+         {:colour=>"White", :registration_number=>"KA-01-HH-1231", :slot_id=>2},
+         {:colour=>"White", :registration_number=>"KA-01-HH-1232", :slot_id=>3},
+         {:colour=>"White", :registration_number=>"KA-01-HH-1233", :slot_id=>4}]
     end
   end
 end
