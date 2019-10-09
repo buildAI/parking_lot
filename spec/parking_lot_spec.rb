@@ -8,6 +8,16 @@ describe ParkingLot do
       @parking_lot = ParkingLot.new(6)
     }
 
+    it 'should setup parking lot with certain number of slots even when stringified number is passed' do
+      parking_lot = ParkingLot.new('6')
+      expect(parking_lot.class).to eq ParkingLot
+      expect(parking_lot.slots.count).to eq 6
+    end
+
+    it 'throws an exception when size is less than 1' do
+      expect { ParkingLot.new(0) }.to raise_error(InvalidParkingLotSize, "Invalid parking lot size")
+    end
+
     it 'should setup parking lot with certain number of slots' do
       expect(@parking_lot.class).to eq ParkingLot
     end

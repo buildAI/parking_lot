@@ -2,6 +2,8 @@ require_relative './vehicle.rb'
 
 class ParkingLot
   def initialize(size)
+    size = size.to_i if size.class == String
+    raise InvalidParkingLotSize, "Invalid parking lot size" if size < 1
     @size = size
     init_slots
   end
