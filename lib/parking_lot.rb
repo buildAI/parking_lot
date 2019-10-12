@@ -55,7 +55,7 @@ class ParkingLot
     slot = slots.find {|slot| slot.id == slot_id }
     raise InvalidSlotId, "Invalid slot ID. Unable to process." unless slot
     slot&.remove_vehicle
-    slot&.free?
+    slot if slot&.free?
   end
 
   private
