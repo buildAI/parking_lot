@@ -109,6 +109,28 @@ describe ParkingLot do
       end
     end
 
+    describe '#release' do
+      it 'frees up the slot id in the parking lot' do
+        registration_number = "KA-01-HH-1231"
+        vehicle = Vehicle.new(registration_number, "Pink")
+        slot = @parking_lot.allocate_parking(vehicle)
+        @parking_lot.release(slot.id)
+        expect(@parking_lot.slots.first.free?).to be_truthy
+      end
+
+      it 'frees up the slot id even when slot id is string' do
+        registration_number = "KA-01-HH-1231"
+        vehicle = Vehicle.new(registration_number, "Pink")
+        slot = @parking_lot.allocate_parking(vehicle)
+        @parking_lot.release(slot.id.to_s)
+        expect(@parking_lot.slots.first.free?).to be_truthy
+      end
+
+      it 'throws an exception when invalid slot id is sent' do
+        expect{@parking_lot.release(rand(100..1000))}.to raise_error(InvalidSlotId, 'Invalid slot ID. Unable to process.')
+      end
+    end
+
     describe '#get_vehicles_with_colour' do
       it 'returns vehicles with orange colour' do
         vehicles = []
@@ -131,32 +153,6 @@ describe ParkingLot do
         slots_with_orange_vehicle = slots.select { |slot| slot&.vehicle&.colour == "Orange" }
         expect(@parking_lot.get_slots_with_vehicle_colour("Orange")).to eq slots_with_orange_vehicle
       end
-    end
-  end
-
-  describe '#release' do
-    before(:each) {
-      @parking_lot = ParkingLot.new(6)
-    }
-
-    it 'frees up the slot id in the parking lot' do
-      registration_number = "KA-01-HH-1231"
-      vehicle = Vehicle.new(registration_number, "Pink")
-      slot = @parking_lot.allocate_parking(vehicle)
-      @parking_lot.release(slot.id)
-      expect(@parking_lot.slots.first.free?).to be_truthy
-    end
-
-    it 'frees up the slot id even when slot id is string' do
-      registration_number = "KA-01-HH-1231"
-      vehicle = Vehicle.new(registration_number, "Pink")
-      slot = @parking_lot.allocate_parking(vehicle)
-      @parking_lot.release(slot.id.to_s)
-      expect(@parking_lot.slots.first.free?).to be_truthy
-    end
-
-    it 'throws an exception when invalid slot id is sent' do
-      expect{@parking_lot.release(rand(100..1000))}.to raise_error(InvalidSlotId, 'Invalid slot ID. Unable to process.')
     end
   end
 end
