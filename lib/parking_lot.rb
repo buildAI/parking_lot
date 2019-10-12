@@ -3,6 +3,8 @@ require_relative './slot.rb'
 require_relative './exceptions.rb'
 
 class ParkingLot
+  attr_reader :size
+
   def initialize(size)
     size = size.to_i if size.class == String
     raise InvalidParkingLotSize, "Invalid parking lot size" if size < 1

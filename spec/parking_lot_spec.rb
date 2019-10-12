@@ -29,6 +29,16 @@ describe ParkingLot do
     end
   end
 
+  describe "#size" do
+    before(:each) {
+      @parking_lot = ParkingLot.new(6)
+    }
+
+    it 'returns the size of parking lot' do
+      expect(@parking_lot.size).to eq 6
+    end
+  end
+
   describe "#allocate_parking" do
     before(:each) {
       @parking_lot = ParkingLot.new(6)
