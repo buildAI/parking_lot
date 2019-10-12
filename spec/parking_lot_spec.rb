@@ -148,17 +148,12 @@ describe ParkingLot do
           expect(@parking_lot.get_vehicles_with_colour("Orange")).to eq orange_vehicles
         end
       end
-    end
 
-    describe '#get_slots_with_vehicle_colour' do
-      it 'returns vehicles with orange colour' do
-        slots = []
-        6.times { |value|
-          vehicle = Vehicle.new("KA-01-HH-123#{value}", ["Pink", "Orange"].sample)
-          slots << (@parking_lot.allocate_parking(vehicle))
-        }
-        slots_with_orange_vehicle = slots.select { |slot| slot&.vehicle&.colour == "Orange" }
-        expect(@parking_lot.get_slots_with_vehicle_colour("Orange")).to eq slots_with_orange_vehicle
+      describe '#get_slots_with_vehicle_colour' do
+        it 'returns vehicles with orange colour' do
+          slots_with_orange_vehicle = @slots.select { |slot| slot&.vehicle&.colour == "Orange" }
+          expect(@parking_lot.get_slots_with_vehicle_colour("Orange")).to eq slots_with_orange_vehicle
+        end
       end
     end
   end
