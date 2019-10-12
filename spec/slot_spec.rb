@@ -34,11 +34,14 @@ describe Slot do
       expect(allocated_slot.vehicle).to eq vehicle
     end
 
-    it "returns nil and doesn't park the vehicle in the spot" do
+    it "throws an exception when slot is not empty and tried to park" do
       vehicle_2 = Vehicle.new('KA-01-HH-1235', 'Orange')
-      slot.park_vehicle(vehicle_2)
       allocated_slot = slot.park_vehicle(vehicle)
-      expect(allocated_slot).to be_nil
+      expect { slot.park_vehicle(vehicle_2) }.to raise_error(SlotFullException, "Slot is occupied cannot accomodate new vehicle")
+    end
+
+    it "throws an exception when vehicle is not sent is not used to park" do
+      expect { slot.park_vehicle('KA-01-HH-1235') }.to raise_error(ArgumentError, "Invalid vehicle passed. Cannot park in the slot.")
     end
   end
 

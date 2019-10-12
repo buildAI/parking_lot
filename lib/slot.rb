@@ -1,4 +1,5 @@
 require_relative './vehicle.rb'
+require_relative './exceptions.rb'
 
 class Slot
   attr_reader :id
@@ -11,8 +12,10 @@ class Slot
   end
 
   def park_vehicle(vehicle)
-    return unless (vehicle.class == Vehicle && self.free?)
-    return self if self.vehicle = vehicle
+    raise ArgumentError, "Invalid vehicle passed. Cannot park in the slot." unless vehicle.class == Vehicle
+    raise SlotFullException, "Slot is occupied cannot accomodate new vehicle" unless self.free?
+    self.vehicle = vehicle
+    self
   end
 
   def free?
