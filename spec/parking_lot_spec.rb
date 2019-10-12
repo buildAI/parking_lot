@@ -59,8 +59,12 @@ describe ParkingLot do
     end
 
     it "throws an error when parking is full" do
-      6.times { |value| @parking_lot.allocate_parking("KA-01-HH-123#{value}", ["Pink", "Orange"].sample) }
-      expect { @parking_lot.allocate_parking("KA-01-HH-1236", "Pink") }.to raise_error(ParkingFullException, "Parking lot is full")
+      6.times { |value|
+        vehicle = Vehicle.new("KA-01-HH-123#{value}", ["Pink", "Orange"].sample)
+        @parking_lot.allocate_parking(vehicle)
+      }
+      vehicle = Vehicle.new("KA-01-HH-1236", "Pink")
+      expect { @parking_lot.allocate_parking(vehicle) }.to raise_error(ParkingFullException, "Parking lot is full")
     end
   end
 
@@ -70,12 +74,18 @@ describe ParkingLot do
     }
 
     it 'returns true when at least one slot is free' do
-      5.times { |value| @parking_lot.allocate_parking("KA-01-HH-123#{value}", ["Pink", "Orange"].sample) }
+      5.times { |value|
+        vehicle = Vehicle.new("KA-01-HH-123#{value}", ["Pink", "Orange"].sample)
+        @parking_lot.allocate_parking(vehicle)
+      }
       expect(@parking_lot.slots_available?).to be_truthy
     end
 
     it 'returns false when parking lot is full' do
-      6.times { |value| @parking_lot.allocate_parking("KA-01-HH-123#{value}", ["Pink", "Orange"].sample) }
+      6.times { |value|
+        vehicle = Vehicle.new("KA-01-HH-123#{value}", ["Pink", "Orange"].sample)
+        @parking_lot.allocate_parking(vehicle)
+      }
       expect(@parking_lot.slots_available?).to eq false
     end
   end
@@ -87,7 +97,10 @@ describe ParkingLot do
 
     it 'returns vehicles with orange colour' do
       vehicles = []
-      6.times { |value| vehicles << (@parking_lot.allocate_parking("KA-01-HH-123#{value}", ["Pink", "Orange"].sample))&.vehicle }
+      6.times { |value|
+        vehicle = Vehicle.new("KA-01-HH-123#{value}", ["Pink", "Orange"].sample)
+        vehicles << (@parking_lot.allocate_parking(vehicle))&.vehicle
+      }
       orange_vehicles = vehicles.select { |vehicle| vehicle.colour == "Orange" }
       expect(@parking_lot.get_vehicles_with_colour("Orange")).to eq orange_vehicles
     end
@@ -100,7 +113,10 @@ describe ParkingLot do
 
     it 'returns vehicles with orange colour' do
       slots = []
-      6.times { |value| slots << (@parking_lot.allocate_parking("KA-01-HH-123#{value}", ["Pink", "Orange"].sample)) }
+      6.times { |value|
+        vehicle = Vehicle.new("KA-01-HH-123#{value}", ["Pink", "Orange"].sample)
+        slots << (@parking_lot.allocate_parking(vehicle))
+      }
       slots_with_orange_vehicle = slots.select { |slot| slot&.vehicle&.colour == "Orange" }
       expect(@parking_lot.get_slots_with_vehicle_colour("Orange")).to eq slots_with_orange_vehicle
     end
@@ -113,7 +129,8 @@ describe ParkingLot do
 
     it 'returns vehicles with orange colour' do
       registration_number = "KA-01-HH-1231"
-      slot = @parking_lot.allocate_parking(registration_number, "Pink")
+      vehicle = Vehicle.new(registration_number, "Pink")
+      slot = @parking_lot.allocate_parking(vehicle)
       expect(@parking_lot.get_slot_with_registration_number(registration_number)).to eq slot
     end
 
@@ -128,7 +145,10 @@ describe ParkingLot do
     }
 
     it 'returns the details of slots and vechile details' do
-      slots = 4.times { |value| @parking_lot.allocate_parking("KA-01-HH-123#{value}", "White") }
+      slots = 4.times { |value|
+        vehicle = Vehicle.new("KA-01-HH-123#{value}", "White")
+        (@parking_lot.allocate_parking(vehicle))
+      }
       expect(@parking_lot.status).to eq [{:colour=>"White", :registration_number=>"KA-01-HH-1230", :slot_id=>1},
          {:colour=>"White", :registration_number=>"KA-01-HH-1231", :slot_id=>2},
          {:colour=>"White", :registration_number=>"KA-01-HH-1232", :slot_id=>3},
@@ -143,14 +163,16 @@ describe ParkingLot do
 
     it 'frees up the slot id in the parking lot' do
       registration_number = "KA-01-HH-1231"
-      slot = @parking_lot.allocate_parking(registration_number, "Pink")
+      vehicle = Vehicle.new(registration_number, "Pink")
+      slot = @parking_lot.allocate_parking(vehicle)
       @parking_lot.release(slot.id)
       expect(@parking_lot.slots.first.free?).to be_truthy
     end
 
     it 'frees up the slot id even when slot id is string' do
       registration_number = "KA-01-HH-1231"
-      slot = @parking_lot.allocate_parking(registration_number, "Pink")
+      vehicle = Vehicle.new(registration_number, "Pink")
+      slot = @parking_lot.allocate_parking(vehicle)
       @parking_lot.release(slot.id.to_s)
       expect(@parking_lot.slots.first.free?).to be_truthy
     end
