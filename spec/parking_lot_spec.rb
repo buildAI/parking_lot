@@ -1,5 +1,6 @@
 require_relative '../lib/parking_lot.rb'
 require_relative '../lib/slot.rb'
+require_relative '../lib/vehicle.rb'
 
 describe ParkingLot do
   describe ".initialize" do
@@ -47,10 +48,10 @@ describe ParkingLot do
     it 'allocates parking in the parking lot' do
       registration_number = 'KA-01-HH-1234'
       colour = 'White'
-      allocated_slot = @parking_lot.allocate_parking(registration_number, colour)
+      vehicle = Vehicle.new(registration_number, colour)
+      allocated_slot = @parking_lot.allocate_parking(vehicle)
       expect(allocated_slot.class).to eq Slot
-      expect(allocated_slot.vehicle.registration_number).to eq registration_number
-      expect(allocated_slot.vehicle.colour).to eq colour
+      expect(allocated_slot.vehicle.registration_number).to eq vehicle.registration_number
     end
 
     it "throws an error when parking is full" do

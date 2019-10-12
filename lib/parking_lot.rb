@@ -12,9 +12,8 @@ class ParkingLot
     init_slots
   end
 
-  def allocate_parking(registration_number, colour)
+  def allocate_parking(vehicle)
     raise ParkingFullException, "Parking lot is full" unless slots_available?
-    vehicle = Vehicle.new(registration_number, colour)
     nearest_free_slot = Slot.get_nearest_free_slot(self.slots) if vehicle
     nearest_free_slot.park_vehicle(vehicle) if nearest_free_slot
   end
