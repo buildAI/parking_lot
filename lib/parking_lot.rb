@@ -34,7 +34,9 @@ class ParkingLot
 
   def get_slot_with_registration_number(registration_number)
     return if registration_number&.empty?
-    slots&.find { |slot| slot&.vehicle&.registration_number == registration_number }
+    slot = slots&.find { |slot| slot&.vehicle&.registration_number == registration_number }
+    raise InvalidRegistrationNumberException, "No such vechicle is available such registration number" unless slot
+    slot
   end
 
   def status

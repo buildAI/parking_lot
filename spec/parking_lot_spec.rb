@@ -101,6 +101,10 @@ describe ParkingLot do
       slot = @parking_lot.allocate_parking(registration_number, "Pink")
       expect(@parking_lot.get_slot_with_registration_number(registration_number)).to eq slot
     end
+
+    it 'raises an exeption when invalid registration number is sent' do
+      expect { @parking_lot.get_slot_with_registration_number("random number") }.to raise_error(InvalidRegistrationNumberException, "No such vechicle is available such registration number")
+    end
   end
 
   describe '#status' do
