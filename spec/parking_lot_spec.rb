@@ -64,27 +64,23 @@ describe ParkingLot do
         expect { @parking_lot.allocate_parking(vehicle) }.to raise_error(ParkingFullException, "Parking lot is full")
       end
     end
-  end
 
-  describe '#slots_available' do
-    before(:each) {
-      @parking_lot = ParkingLot.new(6)
-    }
+    describe '#slots_available' do
+      it 'returns true when at least one slot is free' do
+        5.times { |value|
+          vehicle = Vehicle.new("KA-01-HH-123#{value}", ["Pink", "Orange"].sample)
+          @parking_lot.allocate_parking(vehicle)
+        }
+        expect(@parking_lot.slots_available?).to be_truthy
+      end
 
-    it 'returns true when at least one slot is free' do
-      5.times { |value|
-        vehicle = Vehicle.new("KA-01-HH-123#{value}", ["Pink", "Orange"].sample)
-        @parking_lot.allocate_parking(vehicle)
-      }
-      expect(@parking_lot.slots_available?).to be_truthy
-    end
-
-    it 'returns false when parking lot is full' do
-      6.times { |value|
-        vehicle = Vehicle.new("KA-01-HH-123#{value}", ["Pink", "Orange"].sample)
-        @parking_lot.allocate_parking(vehicle)
-      }
-      expect(@parking_lot.slots_available?).to eq false
+      it 'returns false when parking lot is full' do
+        6.times { |value|
+          vehicle = Vehicle.new("KA-01-HH-123#{value}", ["Pink", "Orange"].sample)
+          @parking_lot.allocate_parking(vehicle)
+        }
+        expect(@parking_lot.slots_available?).to eq false
+      end
     end
   end
 
