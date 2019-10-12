@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+project_bin_dir = File.join(File.dirname(File.expand_path(__FILE__)))
+parking_lot_dir = File.join(project_bin_dir, '..')
+cmd = "bundle install; bundle exec rspec spec"
+puts cmd
+system cmd
