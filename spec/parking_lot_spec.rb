@@ -30,13 +30,15 @@ describe ParkingLot do
     end
   end
 
-  describe "#size" do
+  context "parking lot is alread available" do
     before(:each) {
       @parking_lot = ParkingLot.new(6)
     }
 
-    it 'returns the size of parking lot' do
-      expect(@parking_lot.size).to eq 6
+    describe "#size" do
+      it 'returns the size of parking lot' do
+        expect(@parking_lot.size).to eq 6
+      end
     end
   end
 
