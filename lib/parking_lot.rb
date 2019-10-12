@@ -14,6 +14,7 @@ class ParkingLot
 
   def allocate_parking(vehicle)
     raise ParkingFullException, "Parking lot is full" unless slots_available?
+    raise ArgumentError, "Invalid vehicle object. Not able to process it" unless vehicle.class == Vehicle
     nearest_free_slot = Slot.get_nearest_free_slot(self.slots) if vehicle
     nearest_free_slot.park_vehicle(vehicle) if nearest_free_slot
   end

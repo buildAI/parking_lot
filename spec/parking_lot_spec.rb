@@ -54,6 +54,10 @@ describe ParkingLot do
       expect(allocated_slot.vehicle.registration_number).to eq vehicle.registration_number
     end
 
+    it 'raises an exception when non vehicle is tried for parking' do
+      expect { @parking_lot.allocate_parking('KA-01-HH-1234') }.to raise_error(ArgumentError, "Invalid vehicle object. Not able to process it")
+    end
+
     it "throws an error when parking is full" do
       6.times { |value| @parking_lot.allocate_parking("KA-01-HH-123#{value}", ["Pink", "Orange"].sample) }
       expect { @parking_lot.allocate_parking("KA-01-HH-1236", "Pink") }.to raise_error(ParkingFullException, "Parking lot is full")
