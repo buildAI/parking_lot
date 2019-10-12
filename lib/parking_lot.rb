@@ -49,6 +49,7 @@ class ParkingLot
   end
 
   def release(slot_id)
+    slot_id = slot_id.to_i if slot_id.class == String
     slot = slots.find {|slot| slot.id == slot_id }
     raise InvalidSlotId, "Invalid slot ID. Unable to process." unless slot
     slot&.remove_vehicle
