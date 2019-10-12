@@ -96,6 +96,19 @@ describe ParkingLot do
       end
     end
 
+    describe '#status' do
+      it 'returns the details of slots and vechile details' do
+        slots = 4.times { |value|
+          vehicle = Vehicle.new("KA-01-HH-123#{value}", "White")
+          (@parking_lot.allocate_parking(vehicle))
+        }
+        expect(@parking_lot.status).to eq [{:colour=>"White", :registration_number=>"KA-01-HH-1230", :slot_id=>1},
+          {:colour=>"White", :registration_number=>"KA-01-HH-1231", :slot_id=>2},
+          {:colour=>"White", :registration_number=>"KA-01-HH-1232", :slot_id=>3},
+          {:colour=>"White", :registration_number=>"KA-01-HH-1233", :slot_id=>4}]
+      end
+    end
+
     describe '#get_vehicles_with_colour' do
       it 'returns vehicles with orange colour' do
         vehicles = []
@@ -118,23 +131,6 @@ describe ParkingLot do
         slots_with_orange_vehicle = slots.select { |slot| slot&.vehicle&.colour == "Orange" }
         expect(@parking_lot.get_slots_with_vehicle_colour("Orange")).to eq slots_with_orange_vehicle
       end
-    end
-  end
-
-  describe '#status' do
-    before(:each) {
-      @parking_lot = ParkingLot.new(6)
-    }
-
-    it 'returns the details of slots and vechile details' do
-      slots = 4.times { |value|
-        vehicle = Vehicle.new("KA-01-HH-123#{value}", "White")
-        (@parking_lot.allocate_parking(vehicle))
-      }
-      expect(@parking_lot.status).to eq [{:colour=>"White", :registration_number=>"KA-01-HH-1230", :slot_id=>1},
-         {:colour=>"White", :registration_number=>"KA-01-HH-1231", :slot_id=>2},
-         {:colour=>"White", :registration_number=>"KA-01-HH-1232", :slot_id=>3},
-         {:colour=>"White", :registration_number=>"KA-01-HH-1233", :slot_id=>4}]
     end
   end
 
