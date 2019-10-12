@@ -10,7 +10,7 @@ def process_input(input)
     @parking_lot = functionality.call(*args)
     puts "Created a parking lot with #{@parking_lot.size} slots" if @parking_lot
   when 'park'
-    park { functionality.call(*args) }
+    park(*args) { |vehicle| functionality.call(vehicle) }
   when 'leave'
     leave { functionality.call(*args) }
   when 'status'

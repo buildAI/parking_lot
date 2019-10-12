@@ -4,7 +4,7 @@ module CommandLineHelper
   def command_to_functionality
     {
       'create_parking_lot'=> lambda { |parking_lot_size| ParkingLot.new(parking_lot_size) },
-      'park' => lambda { |registration_number, colour| @parking_lot.allocate_parking(registration_number, colour) },
+      'park' => lambda { |vehicle| @parking_lot.allocate_parking(vehicle) },
       'leave' => lambda { |slot_id| @parking_lot.release(slot_id) },
       'status' => lambda { @parking_lot.status },
       'registration_numbers_for_cars_with_colour' => lambda { |colour| @parking_lot.get_vehicles_with_colour(colour) },
@@ -13,9 +13,10 @@ module CommandLineHelper
     }
   end
 
-  def park
+  def park(registration_number, colour)
+    vehicle = Vehicle.new(registration_number, colour)
     begin
-      slot = yield
+      slot = yield vehicle
       puts "Allocated slot number: #{slot.id}" if slot
     rescue ParkingFullException
       puts "Sorry, parking lot is full"
