@@ -83,6 +83,19 @@ describe ParkingLot do
       end
     end
 
+    describe '#get_slot_with_registration_number' do
+      it 'returns vehicles with orange colour' do
+        registration_number = "KA-01-HH-1231"
+        vehicle = Vehicle.new(registration_number, "Pink")
+        slot = @parking_lot.allocate_parking(vehicle)
+        expect(@parking_lot.get_slot_with_registration_number(registration_number)).to eq slot
+      end
+
+      it 'raises an exeption when invalid registration number is sent' do
+        expect { @parking_lot.get_slot_with_registration_number("random number") }.to raise_error(InvalidRegistrationNumberException, "No such vechicle is available such registration number")
+      end
+    end
+
     describe '#get_vehicles_with_colour' do
       it 'returns vehicles with orange colour' do
         vehicles = []
@@ -105,25 +118,6 @@ describe ParkingLot do
         slots_with_orange_vehicle = slots.select { |slot| slot&.vehicle&.colour == "Orange" }
         expect(@parking_lot.get_slots_with_vehicle_colour("Orange")).to eq slots_with_orange_vehicle
       end
-    end
-  end
-
-
-
-  describe '#get_slot_with_registration_number' do
-    before(:each) {
-      @parking_lot = ParkingLot.new(6)
-    }
-
-    it 'returns vehicles with orange colour' do
-      registration_number = "KA-01-HH-1231"
-      vehicle = Vehicle.new(registration_number, "Pink")
-      slot = @parking_lot.allocate_parking(vehicle)
-      expect(@parking_lot.get_slot_with_registration_number(registration_number)).to eq slot
-    end
-
-    it 'raises an exeption when invalid registration number is sent' do
-      expect { @parking_lot.get_slot_with_registration_number("random number") }.to raise_error(InvalidRegistrationNumberException, "No such vechicle is available such registration number")
     end
   end
 
