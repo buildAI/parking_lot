@@ -40,33 +40,29 @@ describe ParkingLot do
         expect(@parking_lot.size).to eq 6
       end
     end
-  end
 
-  describe "#allocate_parking" do
-    before(:each) {
-      @parking_lot = ParkingLot.new(6)
-    }
+    describe "#allocate_parking" do
+      it 'allocates parking in the parking lot' do
+        registration_number = 'KA-01-HH-1234'
+        colour = 'White'
+        vehicle = Vehicle.new(registration_number, colour)
+        allocated_slot = @parking_lot.allocate_parking(vehicle)
+        expect(allocated_slot.class).to eq Slot
+        expect(allocated_slot.vehicle.registration_number).to eq vehicle.registration_number
+      end
 
-    it 'allocates parking in the parking lot' do
-      registration_number = 'KA-01-HH-1234'
-      colour = 'White'
-      vehicle = Vehicle.new(registration_number, colour)
-      allocated_slot = @parking_lot.allocate_parking(vehicle)
-      expect(allocated_slot.class).to eq Slot
-      expect(allocated_slot.vehicle.registration_number).to eq vehicle.registration_number
-    end
+      it 'raises an exception when non vehicle is tried for parking' do
+        expect { @parking_lot.allocate_parking('KA-01-HH-1234') }.to raise_error(ArgumentError, "Invalid vehicle object. Not able to process it")
+      end
 
-    it 'raises an exception when non vehicle is tried for parking' do
-      expect { @parking_lot.allocate_parking('KA-01-HH-1234') }.to raise_error(ArgumentError, "Invalid vehicle object. Not able to process it")
-    end
-
-    it "throws an error when parking is full" do
-      6.times { |value|
-        vehicle = Vehicle.new("KA-01-HH-123#{value}", ["Pink", "Orange"].sample)
-        @parking_lot.allocate_parking(vehicle)
-      }
-      vehicle = Vehicle.new("KA-01-HH-1236", "Pink")
-      expect { @parking_lot.allocate_parking(vehicle) }.to raise_error(ParkingFullException, "Parking lot is full")
+      it "throws an error when parking is full" do
+        6.times { |value|
+          vehicle = Vehicle.new("KA-01-HH-123#{value}", ["Pink", "Orange"].sample)
+          @parking_lot.allocate_parking(vehicle)
+        }
+        vehicle = Vehicle.new("KA-01-HH-1236", "Pink")
+        expect { @parking_lot.allocate_parking(vehicle) }.to raise_error(ParkingFullException, "Parking lot is full")
+      end
     end
   end
 
