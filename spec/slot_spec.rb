@@ -22,55 +22,47 @@ describe Slot do
     end
   end
 
-  describe "#park_vehicle" do
+  context "after creating vehicle and slot" do
     let(:slot) { Slot.new(1) }
     let(:registration_number) { 'KA-01-HH-1234' }
     let(:colour) { 'White' }
     let(:vehicle) { Vehicle.new(registration_number, colour) }
 
-    it 'returns the slot allocated and parks the vehicle in the spot' do
-      allocated_slot = slot.park_vehicle(vehicle)
-      expect(allocated_slot.class).to eq Slot
-      expect(allocated_slot.vehicle).to eq vehicle
+    describe "#park_vehicle" do
+      it 'returns the slot allocated and parks the vehicle in the spot' do
+        allocated_slot = slot.park_vehicle(vehicle)
+        expect(allocated_slot.class).to eq Slot
+        expect(allocated_slot.vehicle).to eq vehicle
+      end
+
+      it "throws an exception when slot is not empty and tried to park" do
+        vehicle_2 = Vehicle.new('KA-01-HH-1235', 'Orange')
+        allocated_slot = slot.park_vehicle(vehicle)
+        expect { slot.park_vehicle(vehicle_2) }.to raise_error(SlotFullException, "Slot is occupied cannot accomodate new vehicle")
+      end
+
+      it "throws an exception when vehicle is not sent is not used to park" do
+        expect { slot.park_vehicle('KA-01-HH-1235') }.to raise_error(ArgumentError, "Invalid vehicle passed. Cannot park in the slot.")
+      end
     end
 
-    it "throws an exception when slot is not empty and tried to park" do
-      vehicle_2 = Vehicle.new('KA-01-HH-1235', 'Orange')
-      allocated_slot = slot.park_vehicle(vehicle)
-      expect { slot.park_vehicle(vehicle_2) }.to raise_error(SlotFullException, "Slot is occupied cannot accomodate new vehicle")
+    describe "#free?" do
+      it 'returns true when slot is empty' do
+        expect(slot.free?).to be_truthy
+      end
+
+      it 'returned false when vehicle is parked' do
+        slot.park_vehicle(vehicle)
+        expect(slot.free?).to eq false
+      end
     end
 
-    it "throws an exception when vehicle is not sent is not used to park" do
-      expect { slot.park_vehicle('KA-01-HH-1235') }.to raise_error(ArgumentError, "Invalid vehicle passed. Cannot park in the slot.")
-    end
-  end
-
-  describe "#free?" do
-    let(:slot) { Slot.new(1) }
-    let(:registration_number) { 'KA-01-HH-1234' }
-    let(:colour) { 'White' }
-    let(:vehicle) { Vehicle.new(registration_number, colour) }
-
-    it 'returns true when slot is empty' do
-      expect(slot.free?).to be_truthy
-    end
-
-    it 'returned false when vehicle is parked' do
-      slot.park_vehicle(vehicle)
-      expect(slot.free?).to eq false
-    end
-  end
-
-  describe "#remove_vehicle" do
-    let(:slot) { Slot.new(1) }
-    let(:registration_number) { 'KA-01-HH-1234' }
-    let(:colour) { 'White' }
-    let(:vehicle) { Vehicle.new(registration_number, colour) }
-
-    it 'sets the slot free' do
-      slot.park_vehicle(vehicle)
-      slot.remove_vehicle
-      expect(slot.free?).to eq true
+    describe "#remove_vehicle" do
+      it 'sets the slot free' do
+        slot.park_vehicle(vehicle)
+        slot.remove_vehicle
+        expect(slot.free?).to eq true
+      end
     end
   end
 
